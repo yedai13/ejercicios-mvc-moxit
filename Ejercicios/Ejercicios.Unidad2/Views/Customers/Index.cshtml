@@ -17,7 +17,7 @@ else
         @foreach (var customer in @Model)
         {
 
-            <li>@Html.ActionLink(@customer.Name + " " + @customer.Surname, "Details", "Customers", new { id = @customer.Id })</li>
+            <li>@Html.ActionLink(@customer.Name , "Details", "Customers", new { id = @customer.Id })</li>
         }
     </ul>
 }
