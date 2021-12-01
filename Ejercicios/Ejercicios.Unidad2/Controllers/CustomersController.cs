@@ -26,7 +26,7 @@ namespace Ejercicios.Unidad2.Controllers
         [Route("customers/details/{id}")]
         public IActionResult Details(int id)
         {
-            Customer customer = _context.Customer.FirstOrDefault(c => c.Id == id);
+            Customer customer = _context.Customer.Include(c => c.MembershipType).FirstOrDefault(c => c.Id == id);
 
             if(customer!=null)
                 return View(customer);
