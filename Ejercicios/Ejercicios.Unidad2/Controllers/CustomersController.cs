@@ -28,7 +28,10 @@ namespace Ejercicios.Unidad2.Controllers
         {
             Customer customer = customers.Where(c => c.Id == id).FirstOrDefault();
 
-            return View(customer);
+            if(customer!=null)
+                return View(customer);
+
+            return RedirectToAction("Index");
         }
     }
 }
