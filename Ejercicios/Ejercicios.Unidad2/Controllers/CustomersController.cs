@@ -23,6 +23,7 @@ namespace Ejercicios.Unidad2.Controllers
             var membershipTypes = _context.MembershipType.ToList();
             var viewModel = new CustomerFormViewModel()
             {
+                Customer = new Customer(),
                 MembershipTypes = membershipTypes
             };
             ViewBag.Title = "New Customer";
@@ -39,7 +40,7 @@ namespace Ejercicios.Unidad2.Controllers
                     Customer = customer,
                     MembershipTypes = _context.MembershipType.ToList()
                 };
-
+                ViewBag.Title = "New Customer";
                 return View("CustomerForm", viewModel);
             }
 
