@@ -25,14 +25,30 @@ namespace Ejercicios.Unidad2.Controllers
             {
                 MembershipTypes = membershipTypes
             };
-            return View("CustomerForm", viewModel);
+            ViewBag.Title = "New Customer";
+        return View("CustomerForm", viewModel);
         }
 
         [HttpPost]
-        public IActionResult Create(Customer customer)
+        public IActionResult Save(Customer customer)
         {
-            _context.Customer.Add(customer);
+            if (customer.Id == 0)
+            {
+                _context.Customer.Add(customer);
+            }
+            else
+            {
+                var customerIdDb = _context.Customer.Single(c => c.Id == customer.Id);
+
+                //Mapper.Map(customer, customerInDb);
+
+                customerIdDb.Name = customer.Name;
+                customerIdDb.Birthdate = customer.Birthdate;
+                customerIdDb.MembershipTypeId = customer.MembershipTypeId;
+                customerIdDb.IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter;
+            }
             _context.SaveChanges();
+
             return RedirectToAction("Index", "Customers");
         }
 
@@ -65,7 +81,7 @@ namespace Ejercicios.Unidad2.Controllers
                 Customer = customer,
                 MembershipTypes = _context.MembershipType.ToList()
             };
-
+            ViewBag.Title=  "Edit Customer";
             return View("CustomerForm" , viewModel);
         }
     }
