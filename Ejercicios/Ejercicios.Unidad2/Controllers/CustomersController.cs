@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ejercicios.Unidad2.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ejercicios.Unidad2.Controllers
@@ -15,6 +16,24 @@ namespace Ejercicios.Unidad2.Controllers
         public CustomersController(VidlyDBContext context)
         {
             _context = context;
+        }
+
+        public IActionResult New()
+        {
+            var membershipTypes = _context.MembershipType.ToList();
+            var viewModel = new CustomerFormViewModel()
+            {
+                MembershipTypes = membershipTypes
+            };
+            return View("CustomerForm", viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Create(Customer customer)
+        {
+            _context.Customer.Add(customer);
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Customers");
         }
 
         public IActionResult Index()
@@ -32,6 +51,22 @@ namespace Ejercicios.Unidad2.Controllers
                 return View(customer);
 
             return RedirectToAction("Index");
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var customer = _context.Customer.SingleOrDefault(c => c.Id == id);
+
+            if (customer == null)
+                return RedirectToAction("Index", "Customers");
+
+            var viewModel = new CustomerFormViewModel()
+            {
+                Customer = customer,
+                MembershipTypes = _context.MembershipType.ToList()
+            };
+
+            return View("CustomerForm" , viewModel);
         }
     }
 }
