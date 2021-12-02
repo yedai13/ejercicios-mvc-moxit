@@ -8,7 +8,7 @@ namespace Ejercicios.Unidad2.Models
 {
     public class Min18YearsIfAMember : ValidationAttribute
     {
-        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var customer = (Customer) validationContext.ObjectInstance;
             if(customer.MembershipTypeId== MembershipType.Unknown || 

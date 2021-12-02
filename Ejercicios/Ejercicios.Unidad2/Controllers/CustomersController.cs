@@ -31,6 +31,7 @@ namespace Ejercicios.Unidad2.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Save(Customer customer)
         {
             if (!ModelState.IsValid)
