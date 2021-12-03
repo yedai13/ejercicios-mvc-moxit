@@ -7,6 +7,8 @@ using System.Net;
 using System.Threading.Tasks;
 using Ejercicios.Unidad2.Models;
 using System.Web.Http;
+using AutoMapper;
+using Ejercicios.Unidad2.Dtos;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using HttpPutAttribute = Microsoft.AspNetCore.Mvc.HttpPutAttribute;
@@ -19,42 +21,48 @@ namespace Ejercicios.Unidad2.Controllers.Api
     public class CustomersController : ControllerBase
     {
         private VidlyDBContext _context;
+        private IMapper _mapper;
 
-        public CustomersController(VidlyDBContext context)
+        public CustomersController(VidlyDBContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
-        public IEnumerable<Customer> Get()
+        public IEnumerable<CustomerDto> Get()
         {
-            return _context.Customer.ToList();
+            return _context.Customer.ToList().Select(_mapper.Map<Customer, CustomerDto>);
         }
 
         [Route("{id}")]
-        public Customer Get(int id)
+        public IActionResult Get(int id)
         {
             var customer = _context.Customer.SingleOrDefault(c => c.Id == id);
 
             if (customer == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
-            return customer;
+            return Ok(_mapper.Map<Customer, CustomerDto>(customer));
         }
 
         [HttpPost]
-        public Customer CreateCustomer(Customer customer)
+        //TODO deberia usar IHttpActionResulta pero no funciona "return BadRequest()"
+        public IActionResult CreateCustomer(CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return BadRequest();
 
+            var customer = _mapper.Map<CustomerDto, Customer>(customerDto);
             _context.Customer.Add(customer);
             _context.SaveChanges();
 
-            return customer;
+            customerDto.Id = customer.Id;
+            
+            return Created(new Uri($"{Request.Path}/{customer.Id}", UriKind.Relative), customerDto);
         }
 
         [HttpPut]
-        public void UpdateCustomer(int id, Customer customer)
+        public void UpdateCustomer(int id, CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
@@ -64,10 +72,13 @@ namespace Ejercicios.Unidad2.Controllers.Api
             if (customerIdDb == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
 
-            customerIdDb.Name = customer.Name;
-            customerIdDb.Birthdate = customer.Birthdate;
-            customerIdDb.IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter;
-            customerIdDb.MembershipTypeId = customer.MembershipTypeId;
+            _mapper.Map(customerDto, customerIdDb);
+            
+            //Se reemplaza por el mapeo
+            // customerIdDb.Name = customerDto.Name;
+            // customerIdDb.Birthdate = customerDto.Birthdate;
+            // customerIdDb.IsSubscribedToNewsletter = customerDto.IsSubscribedToNewsletter;
+            // customerIdDb.MembershipTypeId = customerDto.MembershipTypeId;
 
 
             _context.SaveChanges();

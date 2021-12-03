@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Ejercicios.Unidad2.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,8 +28,22 @@ namespace Ejercicios.Unidad2
         {
             services.AddDbContext<VidlyDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("VidlyContext")));
             services.AddControllersWithViews();
+
+            //mapper
+            var mapperConfig = new MapperConfiguration(m =>
+            {
+                m.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton<IMapper>(mapper);
+            services.AddMvc();
+
+            //Para activar la primera letra mayuscula en el json
+            // services.AddMvc().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
         }
 
+        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
