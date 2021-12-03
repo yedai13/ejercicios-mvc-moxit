@@ -54,5 +54,38 @@ namespace Ejercicios.Unidad2.Controllers.Api
 
             return Created(new Uri($"{Request.Path}/{movie.Id}", UriKind.Relative), movieDto);
         }
+
+        [HttpPut]
+        public IActionResult UpdateMovie(int id, MovieDto movieDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var movieIdDb = _context.Movie.SingleOrDefault(m => m.Id == id);
+
+            if (movieIdDb == null)
+                return NotFound();
+
+            _mapper.Map(movieDto, movieIdDb);
+            _context.SaveChanges();
+
+            return Ok();
+
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult DeleteMovie(int id)
+        {
+            var movieIdDb = _context.Movie.SingleOrDefault(m => m.Id == id);
+
+            if (movieIdDb == null)
+                return NotFound();
+
+            _context.Movie.Remove(movieIdDb);
+            _context.SaveChanges();
+
+            return Ok();
+        }
     }
 }

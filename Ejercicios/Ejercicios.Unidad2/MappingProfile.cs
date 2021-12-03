@@ -13,10 +13,14 @@ namespace Ejercicios.Unidad2
         public MappingProfile()
         {
             CreateMap<Customer, CustomerDto>();
-            CreateMap<CustomerDto, Customer>();
-
             CreateMap<Movie, MovieDto>();
-            CreateMap<MovieDto, Movie>();
+
+
+
+            CreateMap<CustomerDto, Customer>()
+                .ForMember( c => c.Id, option => option.Ignore());
+            CreateMap<MovieDto, Movie>()
+                .ForMember(m => m.Id, option => option.Ignore());
         }
     }
 }
