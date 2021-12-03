@@ -26,7 +26,33 @@ namespace Ejercicios.Unidad2.Controllers.Api
 
         public IEnumerable<MovieDto> Get()
         {
-            return _context.Movie.ToList().Select();
+            return _context.Movie.ToList().Select(_mapper.Map<Movie, MovieDto>);
+        }
+
+        [Route("{id}")]
+        public IActionResult Get(int id)
+        {
+            var movie = _context.Movie.SingleOrDefault(m => m.Id == id);
+
+            if (movie == null)
+                return NotFound();
+
+            return Ok(_mapper.Map<Movie, MovieDto>(movie));
+        }
+
+        [HttpPost]
+        public IActionResult CreateMovie(MovieDto movieDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var movie = _mapper.Map<MovieDto, Movie>(movieDto);
+            _context.Movie.Add(movie);
+            _context.SaveChanges();
+
+            movieDto.Id = movie.Id;
+
+            return Created(new Uri($"{Request.Path}/{movie.Id}", UriKind.Relative), movieDto);
         }
     }
 }
