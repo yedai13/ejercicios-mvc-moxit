@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Ejercicios.Unidad2.Dtos;
 
 namespace Ejercicios.Unidad2.Controllers.Api
 {
@@ -23,6 +24,9 @@ namespace Ejercicios.Unidad2.Controllers.Api
             _mapper = mapper;
         }
 
-
+        public IEnumerable<MovieDto> Get()
+        {
+            return _context.Movie.ToList().Select();
+        }
     }
 }
