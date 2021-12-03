@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    class Vuelo
+    public class Vuelo
     {
         public int Id { get; set; }
 

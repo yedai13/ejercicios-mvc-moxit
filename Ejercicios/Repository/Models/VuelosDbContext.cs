@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
-    class VuelosDbContext : DbContext
+    public class VuelosDbContext : DbContext
     {
         public VuelosDbContext(DbContextOptions<VuelosDbContext> options) : base(options)
         {
