@@ -14,6 +14,8 @@ namespace Ejercicios.Unidad2
         {
             CreateMap<Customer, CustomerDto>();
             CreateMap<Movie, MovieDto>();
+            CreateMap<MembershipType, MembershipTypeDto>();
+
 
 
 

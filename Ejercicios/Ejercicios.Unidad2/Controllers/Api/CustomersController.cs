@@ -9,6 +9,7 @@ using Ejercicios.Unidad2.Models;
 using System.Web.Http;
 using AutoMapper;
 using Ejercicios.Unidad2.Dtos;
+using Microsoft.EntityFrameworkCore;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 using HttpPostAttribute = Microsoft.AspNetCore.Mvc.HttpPostAttribute;
 using HttpPutAttribute = Microsoft.AspNetCore.Mvc.HttpPutAttribute;
@@ -31,7 +32,10 @@ namespace Ejercicios.Unidad2.Controllers.Api
 
         public IEnumerable<CustomerDto> Get()
         {
-            return _context.Customer.ToList().Select(_mapper.Map<Customer, CustomerDto>);
+            return _context.Customer
+                .Include(c => c.MembershipType)
+                .ToList()
+                .Select(_mapper.Map<Customer, CustomerDto>);
         }
 
         [Route("{id}")]

@@ -19,6 +19,8 @@ namespace Ejercicios.Unidad2.Dtos
 
         public byte MembershipTypeId { get; set; }
 
+        public MembershipTypeDto MembershipType { get; set; }
+
         // [Min18YearsIfAMember] para que funcione
         public DateTime? Birthdate { get; set; }
     }
