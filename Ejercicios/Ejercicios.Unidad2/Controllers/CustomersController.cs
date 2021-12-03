@@ -67,8 +67,8 @@ namespace Ejercicios.Unidad2.Controllers
 
         public IActionResult Index()
         {
-            var customers = _context.Customer.Include(c => c.MembershipType).ToList();
-            return View(customers);
+            // var customers = _context.Customer.Include(c => c.MembershipType).ToList();
+            return View();
         }
 
         [Route("customers/details/{id}")]
