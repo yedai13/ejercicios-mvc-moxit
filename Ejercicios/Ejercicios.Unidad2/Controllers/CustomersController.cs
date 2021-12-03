@@ -67,7 +67,6 @@ namespace Ejercicios.Unidad2.Controllers
 
         public IActionResult Index()
         {
-            // var customers = _context.Customer.Include(c => c.MembershipType).ToList();
             return View();
         }
 

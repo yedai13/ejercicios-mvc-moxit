@@ -65,8 +65,7 @@ namespace Ejercicios.Unidad2.Controllers
 
         public IActionResult Index()
         {
-            List<Movie> movies = _context.Movie.Include(m => m.Genre).ToList();
-            return View(movies);
+            return View();
         }
 
         [Route("movies/details/{id}")]

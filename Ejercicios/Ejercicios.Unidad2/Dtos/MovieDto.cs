@@ -22,5 +22,7 @@ namespace Ejercicios.Unidad2.Dtos
 
         public byte GenreId { get; set; }
 
+        public GenreDto Genre { get; set; }
+
     }
 }

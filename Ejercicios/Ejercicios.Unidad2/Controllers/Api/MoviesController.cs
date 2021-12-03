@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Ejercicios.Unidad2.Dtos;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ejercicios.Unidad2.Controllers.Api
 {
@@ -26,7 +27,10 @@ namespace Ejercicios.Unidad2.Controllers.Api
 
         public IEnumerable<MovieDto> Get()
         {
-            return _context.Movie.ToList().Select(_mapper.Map<Movie, MovieDto>);
+            return _context.Movie
+                .Include(m => m.Genre)
+                .ToList()
+                .Select(_mapper.Map<Movie, MovieDto>);
         }
 
         [Route("{id}")]
