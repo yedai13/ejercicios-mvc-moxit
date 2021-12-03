@@ -62,6 +62,7 @@ namespace Ejercicios.Unidad2.Controllers.Api
         }
 
         [HttpPut]
+        [Route("{id}")]
         public void UpdateCustomer(int id, CustomerDto customerDto)
         {
             if (!ModelState.IsValid)

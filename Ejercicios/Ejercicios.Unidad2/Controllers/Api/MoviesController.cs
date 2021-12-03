@@ -47,6 +47,7 @@ namespace Ejercicios.Unidad2.Controllers.Api
                 return BadRequest();
 
             var movie = _mapper.Map<MovieDto, Movie>(movieDto);
+            movie.DateAdded = DateTime.Now;
             _context.Movie.Add(movie);
             _context.SaveChanges();
 
@@ -55,23 +56,26 @@ namespace Ejercicios.Unidad2.Controllers.Api
             return Created(new Uri($"{Request.Path}/{movie.Id}", UriKind.Relative), movieDto);
         }
 
+
         [HttpPut]
+        [Route("{id}")]
         public IActionResult UpdateMovie(int id, MovieDto movieDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var movieIdDb = _context.Movie.SingleOrDefault(m => m.Id == id);
+            var movieInDb = _context.Movie.SingleOrDefault(m => m.Id == id);
 
-            if (movieIdDb == null)
+            if (movieInDb == null)
                 return NotFound();
 
-            _mapper.Map(movieDto, movieIdDb);
+            _mapper.Map(movieDto, movieInDb);
+
             _context.SaveChanges();
 
             return Ok();
-
         }
+
 
         [HttpDelete]
         [Route("{id}")]
