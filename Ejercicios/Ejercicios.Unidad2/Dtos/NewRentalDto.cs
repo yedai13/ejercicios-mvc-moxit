@@ -8,6 +8,6 @@ namespace Ejercicios.Unidad2.Dtos
     public class NewRentalDto
     {
         public int CustomerId { get; set; }
-        public List<int> MoviesIds { get; set; }
+        public List<int> MovieIds { get; set; }
     }
 }
