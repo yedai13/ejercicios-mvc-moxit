@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Repository.Models;
 
 namespace Repository
 {
@@ -15,7 +16,7 @@ namespace Repository
             _ctx = ctx;
         }
 
-        public void Create(Vuelo vuelo)
+        public void Create(CreateVueloModel vuelo)
         {
             Vuelo nuevo = new();
             nuevo.NumeroVuelo = vuelo.NumeroVuelo;
