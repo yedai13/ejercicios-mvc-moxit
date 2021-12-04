@@ -17,5 +17,6 @@ namespace Ejercicios.Unidad2.Models
         public DbSet<Movie> Movie { get; set; }
         public DbSet<MembershipType> MembershipType { get; set; }
         public DbSet<Genre> Genre { get; set; }
+        public DbSet<Rental> Rental { get; set; }
     }
 }

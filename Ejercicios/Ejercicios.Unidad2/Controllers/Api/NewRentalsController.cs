@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Ejercicios.Unidad2.Dtos;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,11 @@ namespace Ejercicios.Unidad2.Controllers.Api
     [ApiController]
     public class NewRentalsController : ControllerBase
     {
+
+        [HttpPost]
+        public IActionResult CreateNewRentals(NewRentalDto newRental)
+        {
+            return null;
+        }
     }
 }
