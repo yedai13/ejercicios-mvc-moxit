@@ -7,26 +7,26 @@
 <h1>Próximos vuelos</h1>
 <hr />
 <div>
-    <table class="table table-striped table-bordered">
-        <thead>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
         <tr>
             <th scope="col">Horario Llegada</th>
             <th scope="col">Vuelo</th>
             <th scope="col">Línea Aerea</th>
             <th scope="col">Demora</th>
-            <th scope="col">Editar</th>
+            @* <th scope="col">Editar</th> *@
         </tr>
         </thead>
         <tbody>
         @foreach (var vuelo in @Model)
         {
            
-                <tr>
+                <tr  onclick="irAEvento('/Vuelos/Edit/@vuelo.Id')">
                     <th>@vuelo.HorarioLlegada.ToShortTimeString()</th>
                     <td>@vuelo.NumeroVuelo</td>
                     <td>@vuelo.LineaAerea</td>
                     <td>@(vuelo.Demora ? "Si" : "No")</td>
-                    <td>@Html.ActionLink("Editar", "Edit", "Vuelos", new{@vuelo.Id})</td>
+                    @* <td>@Html.ActionLink("Editar", "Edit", "Vuelos", new{@vuelo.Id})</td> *@
                 </tr>
             
         }

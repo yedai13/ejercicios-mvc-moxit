@@ -47,9 +47,28 @@ namespace Vuelos.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Vuelo vuelo)
+        public IActionResult Edit(Vuelo vuelo)
         {
             _vueloRepository.Edit(vuelo);
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete()
+        {
+            var vuelos = _vueloRepository.GetVuelos();
+
+            return View(vuelos);
+
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            var vuelo = _vueloRepository.GetById(id);
+            if (vuelo == null)
+                return RedirectToAction("Delete");
+
+            _vueloRepository.Delete(vuelo);
             return RedirectToAction("Index");
         }
     }

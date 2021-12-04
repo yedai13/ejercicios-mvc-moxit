@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Repository.Vuelo>
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Eliminar Vuelo</h1>
+<hr/>
+
+<form asp-action="Delete" asp-controller="Vuelos">
+    <select name="id">
+        <option selected>Seleccione vuelo que desee borrar.</option>
+        @foreach (var vuelo in @Model)
+        {
+            <option value="@vuelo.Id">@vuelo.NumeroVuelo</option>
+        }
+    </select>
+    <button type="submit" class="btn btn-primary">Delete</button>
+
+</form>
