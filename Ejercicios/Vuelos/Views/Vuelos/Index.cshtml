@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Repository.Vuelo>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Próximos vuelos</h1>
+<hr />
+<div>
+    <table class="table table-striped table-bordered">
+        <thead>
+        <tr>
+            <th scope="col">Horario Llegada</th>
+            <th scope="col">Vuelo</th>
+            <th scope="col">Línea Aerea</th>
+            <th scope="col">Demora</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var vuelo in @Model)
+        {
+            <tr>
+                <th>@vuelo.HorarioLlegada.ToShortTimeString()</th>
+                <td>@vuelo.NumeroVuelo</td>
+                <td>@vuelo.LineaAerea</td>
+                <td>@(vuelo.Demora ? "Si" : "No")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    
+    
+</div>
