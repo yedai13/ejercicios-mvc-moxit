@@ -30,26 +30,27 @@ namespace Ejercicios.Unidad2.Controllers.Api
             _mapper = mapper;
         }
 
-        public IActionResult Get()
+        public IEnumerable<CustomerDto> Get(string query = null)
         {
-            var customers= _context.Customer
-                .Include(c => c.MembershipType)
-                .ToList()
-                .Select(_mapper.Map<Customer, CustomerDto>);
-
-            return Ok(customers);
-
-            //TODO no anda
-            // var customerQuery = _context.Customer
-            //     .Include(c => c.MembershipType);
-            //
-            // if (!String.IsNullOrWhiteSpace(query))
-            //     customerQuery = (Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<Customer, MembershipType>)customerQuery.Where(c => c.Name.Contains(query));
-            //
-            // var customerDtos = customerQuery
+            // var customers= _context.Customer
+            //     .Include(c => c.MembershipType)
             //     .ToList()
             //     .Select(_mapper.Map<Customer, CustomerDto>);
             //
+            // return Ok(customers);
+
+            //TODO no anda. tuve que agregar were para que anda sino no funcionaba.
+            var customerQuery = _context.Customer
+                .Include(c => c.MembershipType)
+                .Where(c => c.Id != 0);
+            
+            if (!String.IsNullOrWhiteSpace(query))
+                customerQuery = customerQuery.Where(c => c.Name.Contains(query));
+            
+            return customerQuery
+                .ToList()
+                .Select(_mapper.Map<Customer, CustomerDto>);
+            
             // return Ok(customerDtos);
         }
 
