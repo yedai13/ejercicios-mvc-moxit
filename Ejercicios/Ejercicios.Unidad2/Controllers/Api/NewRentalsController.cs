@@ -21,7 +21,7 @@ namespace Ejercicios.Unidad2.Controllers.Api
         }
 
         [HttpPost]
-        public IActionResult CreateNewRentals(NewRentalDto newRental)
+        public IActionResult CreateNewRentals([FromHeader]NewRentalDto newRental)
         {
             var customer = _context.Customer.Single(
                 c => c.Id == newRental.CustomerId);
