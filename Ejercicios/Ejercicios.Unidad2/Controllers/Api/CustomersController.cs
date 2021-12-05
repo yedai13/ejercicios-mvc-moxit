@@ -30,12 +30,27 @@ namespace Ejercicios.Unidad2.Controllers.Api
             _mapper = mapper;
         }
 
-        public IEnumerable<CustomerDto> Get()
+        public IActionResult Get()
         {
-            return _context.Customer
+            var customers= _context.Customer
                 .Include(c => c.MembershipType)
                 .ToList()
                 .Select(_mapper.Map<Customer, CustomerDto>);
+
+            return Ok(customers);
+
+            //TODO no anda
+            // var customerQuery = _context.Customer
+            //     .Include(c => c.MembershipType);
+            //
+            // if (!String.IsNullOrWhiteSpace(query))
+            //     customerQuery = (Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<Customer, MembershipType>)customerQuery.Where(c => c.Name.Contains(query));
+            //
+            // var customerDtos = customerQuery
+            //     .ToList()
+            //     .Select(_mapper.Map<Customer, CustomerDto>);
+            //
+            // return Ok(customerDtos);
         }
 
         [Route("{id}")]
@@ -67,15 +82,15 @@ namespace Ejercicios.Unidad2.Controllers.Api
 
         [HttpPut]
         [Route("{id}")]
-        public void UpdateCustomer(int id, CustomerDto customerDto)
+        public IActionResult UpdateCustomer(int id, CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return BadRequest();
 
             var customerIdDb = _context.Customer.SingleOrDefault(c => c.Id == id);
 
             if (customerIdDb == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
             _mapper.Map(customerDto, customerIdDb);
             
@@ -87,19 +102,23 @@ namespace Ejercicios.Unidad2.Controllers.Api
 
 
             _context.SaveChanges();
+
+            return Ok();
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public void DeleteCustomer(int id)
+        public IActionResult DeleteCustomer(int id)
         {
             var customerIdDb = _context.Customer.SingleOrDefault(c => c.Id == id);
 
             if (customerIdDb == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                return NotFound();
 
             _context.Customer.Remove(customerIdDb);
             _context.SaveChanges();
+
+            return Ok();
         }
 
     }

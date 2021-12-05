@@ -25,10 +25,16 @@ namespace Ejercicios.Unidad2.Controllers.Api
             _mapper = mapper;
         }
 
-        public IEnumerable<MovieDto> Get()
+        public IEnumerable<MovieDto> Get(string query = null)
         {
-            return _context.Movie
+            var moviesQuery = _context.Movie
                 .Include(m => m.Genre)
+                .Where(m => m.NumberAvailable > 0);
+
+            if (!String.IsNullOrWhiteSpace(query))
+                moviesQuery = moviesQuery.Where(m => m.Name.Contains(query));
+
+            return moviesQuery
                 .ToList()
                 .Select(_mapper.Map<Movie, MovieDto>);
         }
