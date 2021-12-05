@@ -88,11 +88,11 @@
                 });
 
             $("#newRental").submit(function(e) {
-                e.prenventDefaul();
+                e.preventDefault();
 
                 $.ajax({
                         url: "/api/newRentals",
-                        method: "post",
+                        method: "POST",
                         data: vm
                     })
                     .done(function() {

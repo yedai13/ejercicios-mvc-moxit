@@ -26,7 +26,7 @@ namespace Ejercicios.Unidad2.Controllers.Api
             var customer = _context.Customer.Single(
                 c => c.Id == newRental.CustomerId);
 
-            var movies = _context.Movie.Where(m => newRental.MovieIds.Contains(m.Id));
+            var movies = _context.Movie.Where(m => newRental.MovieIds.Contains(m.Id)).ToList();
 
             foreach (var movie in movies)
             {
