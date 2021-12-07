@@ -29,6 +29,12 @@ namespace Ejercicios.Unidad2
             services.AddDbContext<VidlyDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("VidlyContext")));
             services.AddControllersWithViews();
 
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = "Session";
+                options.IdleTimeout = TimeSpan.FromSeconds(1200);
+            });
+
             //mapper
             var mapperConfig = new MapperConfiguration(m =>
             {
@@ -61,7 +67,7 @@ namespace Ejercicios.Unidad2
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
