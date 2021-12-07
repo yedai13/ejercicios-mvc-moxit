@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Ejercicios.Unidad2.Filter;
 using Ejercicios.Unidad2.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,6 +35,11 @@ namespace Ejercicios.Unidad2
                 options.Cookie.Name = "Session";
                 options.IdleTimeout = TimeSpan.FromSeconds(1200);
             });
+
+            //filter
+            services.AddScoped<NotLogged>();
+            services.AddScoped<Logged>();
+
 
             //mapper
             var mapperConfig = new MapperConfiguration(m =>

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ejercicios.Unidad2.Filter;
 
 namespace Ejercicios.Unidad2.Controllers
 {
@@ -18,6 +19,7 @@ namespace Ejercicios.Unidad2.Controllers
             _context = context;
         }
 
+        [NotLogged]
         public ActionResult Login()
         {
             return View();
@@ -25,6 +27,7 @@ namespace Ejercicios.Unidad2.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [NotLogged]
         public ActionResult Login(LoginViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -38,10 +41,12 @@ namespace Ejercicios.Unidad2.Controllers
                 return View(viewModel);
 
             HttpContext.Session.SetInt32("TypeUser" , customer.TypeUser);
+            HttpContext.Session.SetInt32("UserExist", 1);
 
             return RedirectToAction("Index", "Movies");
         }
 
+        [Logged]
         public IActionResult Register()
         {
 
@@ -56,6 +61,7 @@ namespace Ejercicios.Unidad2.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [NotLogged]
         public IActionResult Register(Customer customer)
         {
             if (!ModelState.IsValid)
@@ -74,6 +80,13 @@ namespace Ejercicios.Unidad2.Controllers
 
             return RedirectToAction("Login");
 
+        }
+
+        [Logged]
+        public IActionResult LogOut()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login", "User");
         }
 
     }

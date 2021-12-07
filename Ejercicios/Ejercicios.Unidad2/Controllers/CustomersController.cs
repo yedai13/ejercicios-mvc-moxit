@@ -4,11 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ejercicios.Unidad2.Filter;
 using Ejercicios.Unidad2.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ejercicios.Unidad2.Controllers
 {
+    [Logged]
+    [IsAdmin]
     public class CustomersController : Controller
     {
         private VidlyDBContext _context;
