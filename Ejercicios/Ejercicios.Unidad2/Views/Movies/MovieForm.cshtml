@@ -3,6 +3,8 @@
     ViewData["Title"] = @Model.Title;
 }
 
+<partial name="_AdminNavBar" />
+
 <h1>@Model.Title</h1>
 
 @using (Html.BeginForm("Save", "Movies"))

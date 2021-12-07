@@ -4,14 +4,16 @@ using Ejercicios.Unidad2.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Ejercicios.Unidad2.Migrations
 {
     [DbContext(typeof(VidlyDBContext))]
-    partial class VidlyDBContextModelSnapshot : ModelSnapshot
+    [Migration("20211207065635_AddPropertiesCustomer")]
+    partial class AddPropertiesCustomer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,9 +122,6 @@ namespace Ejercicios.Unidad2.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.Property<byte>("NumberAvailable")
-                        .HasColumnType("tinyint");
-
                     b.Property<byte>("NumberInStock")
                         .HasColumnType("tinyint");
 
@@ -134,34 +133,6 @@ namespace Ejercicios.Unidad2.Migrations
                     b.HasIndex("GenreId");
 
                     b.ToTable("Movie");
-                });
-
-            modelBuilder.Entity("Ejercicios.Unidad2.Models.Rental", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateRented")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateReturned")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("MovieId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("Rental");
                 });
 
             modelBuilder.Entity("Ejercicios.Unidad2.Models.Customer", b =>
@@ -184,21 +155,6 @@ namespace Ejercicios.Unidad2.Migrations
                         .IsRequired();
 
                     b.Navigation("Genre");
-                });
-
-            modelBuilder.Entity("Ejercicios.Unidad2.Models.Rental", b =>
-                {
-                    b.HasOne("Ejercicios.Unidad2.Models.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId");
-
-                    b.HasOne("Ejercicios.Unidad2.Models.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("MovieId");
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Movie");
                 });
 #pragma warning restore 612, 618
         }

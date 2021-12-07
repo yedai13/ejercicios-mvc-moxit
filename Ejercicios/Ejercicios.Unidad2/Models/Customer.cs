@@ -24,5 +24,22 @@ namespace Ejercicios.Unidad2.Models
         [Display(Name = "Date of Birth")]
         [Min18YearsIfAMember]
         public DateTime? Birthdate { get; set; }
+
+        [Required]
+        [StringLength(255)]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(255)]
+        public string Password { get; set; }
+
+        [Required]
+        [Display(Name = "Driving License")]
+        [StringLength(255)]
+        public string DrivingLicense { get; set; }
+
+        [Required]
+        [Display(Name = "Type of User")]
+        public int TypeUser { get; set; }
     }
 }

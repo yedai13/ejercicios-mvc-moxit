@@ -3,12 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ejercicios.Unidad2.Enum;
+using Ejercicios.Unidad2.Filter;
 using Ejercicios.Unidad2.Models;
 using Ejercicios.Unidad2.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ejercicios.Unidad2.Controllers
 {
+    
+    [Logged]
     public class MoviesController : Controller
     {
         private VidlyDBContext _context;
@@ -18,6 +23,8 @@ namespace Ejercicios.Unidad2.Controllers
             _context = context;
         }
 
+
+        [IsAdmin]
         public IActionResult New()
         {
             var genre = _context.Genre.ToList();
@@ -30,6 +37,7 @@ namespace Ejercicios.Unidad2.Controllers
         }
 
         [HttpPost]
+        [IsAdmin]
         [ValidateAntiForgeryToken]
         public IActionResult Save(Movie movie)
         {
@@ -65,6 +73,9 @@ namespace Ejercicios.Unidad2.Controllers
 
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetInt32("TypeUser") == (int)TypeUser.Customer) 
+                return View("ReadOnlyList");
+
             return View();
         }
 
