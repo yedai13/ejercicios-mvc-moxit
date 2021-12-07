@@ -3,9 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ejercicios.Unidad2.Enum;
 using Ejercicios.Unidad2.Filter;
 using Ejercicios.Unidad2.Models;
 using Ejercicios.Unidad2.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ejercicios.Unidad2.Controllers
@@ -20,6 +22,8 @@ namespace Ejercicios.Unidad2.Controllers
             _context = context;
         }
 
+
+        [IsAdmin]
         public IActionResult New()
         {
             var genre = _context.Genre.ToList();
@@ -32,6 +36,7 @@ namespace Ejercicios.Unidad2.Controllers
         }
 
         [HttpPost]
+        [IsAdmin]
         [ValidateAntiForgeryToken]
         public IActionResult Save(Movie movie)
         {
@@ -67,7 +72,10 @@ namespace Ejercicios.Unidad2.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            if(HttpContext.Session.GetInt32("UserType") == (int)TypeUser.Admin) 
+                return View();
+
+            return View("ReadOnlyList");
         }
 
         [Route("movies/details/{id}")]
