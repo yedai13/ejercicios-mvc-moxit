@@ -13,9 +13,9 @@ namespace Ejercicios.Unidad2.Filter
     {
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            if (context.HttpContext.Session.GetInt32("UserExist") == 1)
+            if (context.HttpContext.Session.GetInt32("UserExist") != 1)
             {
-                context.Result = new RedirectResult("/Movies");
+                context.Result = new RedirectResult("/User/Login");
                 return;
             }
 

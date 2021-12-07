@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ejercicios.Unidad2.Controllers
 {
-    [Logged]
     [IsAdmin]
     public class CustomersController : Controller
     {

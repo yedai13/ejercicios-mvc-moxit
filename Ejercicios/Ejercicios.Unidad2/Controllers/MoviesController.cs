@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ejercicios.Unidad2.Controllers
 {
+    
     [Logged]
     public class MoviesController : Controller
     {
@@ -72,10 +73,10 @@ namespace Ejercicios.Unidad2.Controllers
 
         public IActionResult Index()
         {
-            if(HttpContext.Session.GetInt32("UserType") == (int)TypeUser.Admin) 
-                return View();
+            if (HttpContext.Session.GetInt32("TypeUser") == (int)TypeUser.Customer) 
+                return View("ReadOnlyList");
 
-            return View("ReadOnlyList");
+            return View();
         }
 
         [Route("movies/details/{id}")]

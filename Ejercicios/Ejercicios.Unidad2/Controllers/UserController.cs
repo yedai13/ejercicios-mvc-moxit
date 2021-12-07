@@ -42,11 +42,13 @@ namespace Ejercicios.Unidad2.Controllers
 
             HttpContext.Session.SetInt32("TypeUser" , customer.TypeUser);
             HttpContext.Session.SetInt32("UserExist", 1);
+            HttpContext.Session.SetString("UserName", customer.Name);
+
 
             return RedirectToAction("Index", "Movies");
         }
 
-        [Logged]
+        [NotLogged]
         public IActionResult Register()
         {
 
