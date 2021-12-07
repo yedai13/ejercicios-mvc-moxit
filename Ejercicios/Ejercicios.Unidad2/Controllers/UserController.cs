@@ -37,7 +37,7 @@ namespace Ejercicios.Unidad2.Controllers
             if (customer == null)
                 return View(viewModel);
 
-
+            HttpContext.Session.SetInt32("TypeUser" , customer.TypeUser);
 
             return RedirectToAction("Index", "Movies");
         }
@@ -70,8 +70,9 @@ namespace Ejercicios.Unidad2.Controllers
             }
 
             _context.Customer.Add(customer);
+            _context.SaveChanges();
 
-            return RedirectToAction("Register");
+            return RedirectToAction("Login");
 
         }
 
