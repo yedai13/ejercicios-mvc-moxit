@@ -38,7 +38,11 @@ namespace Ejercicios.Unidad2.Controllers
             var customer = _context.Customer.Where(c => c.Email == viewModel.Email && c.Password == viewModel.Password).FirstOrDefault();
 
             if (customer == null)
+            {
+                ModelState.AddModelError(string.Empty, "Incorrect credentials");
                 return View(viewModel);
+            }
+               
 
             HttpContext.Session.SetInt32("TypeUser" , customer.TypeUser);
             HttpContext.Session.SetInt32("UserExist", 1);
